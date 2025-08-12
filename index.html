@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Responsive Demo — Mobile Friendly</title>
+  <style>
+    /* ===== Reset & base ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      line-height: 1.4;
+      color: #1f2937;
+      background: #f8fafc;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; height: auto; }
+
+    /* ===== Layout variables ===== */
+    :root {
+      --max-width: 1100px;
+      --gap: 1.25rem;
+      --accent: #2563eb; /* blue */
+      --card-bg: #ffffff;
+      --radius: 12px;
+      --container-padding: 1rem;
+    }
+
+    /* ===== Container ===== */
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--container-padding);
+    }
+
+    /* ===== Header / Nav ===== */
+    header {
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.6));
+      backdrop-filter: blur(4px);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid rgba(15,23,42,0.04);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--gap);
+      padding: 0.8rem 0;
+    }
+    .brand { display:flex; align-items:center; gap:0.6rem; }
+    .logo {
+      background: var(--accent);
+      color: white;
+      width: 44px;
+      height: 44px;
+      display:grid;
+      place-items:center;
+      border-radius:8px;
+      font-weight:700;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+    nav a { padding: 0.5rem 0.6rem; border-radius: 8px; }
+    nav a:hover { background: rgba(37,99,235,0.08); color: var(--accent); }
+
+    /* Use <details> for a simple accessible mobile menu toggle (no JS) */
+    details.nav-toggle {
+      display: none; /* hidden on desktop */
+    }
+    details summary {
+      list-style: none;
+      display: inline-flex;
+      align-items:center;
+      gap: 0.6rem;
+      cursor: pointer;
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+      user-select: none;
+    }
+    details[open] summary { background: rgba(37,99,235,0.08); color: var(--accent); }
+
+    /* ===== Hero ===== */
+    .hero {
+      padding: 3rem 0;
+      display: grid;
+      grid-template-columns: 1fr 440px;
+      gap: 2rem;
+      align-items: center;
+    }
+    .hero h1 { font-size: clamp(1.6rem, 2.4vw + 1rem, 2.5rem); margin: 0 0 0.6rem 0; }
+    .hero p { margin: 0 0 1rem 0; color: #374151; }
+    .cta-row { display:flex; gap: 0.8rem; flex-wrap:wrap; }
+    .btn {
+      padding: 0.65rem 1rem;
+      border-radius: 10px;
+      background: var(--accent);
+      color: white;
+      font-weight:600;
+      border: none;
+      cursor: pointer;
+    }
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(15,23,42,0.08);
+      color: #111827;
+    }
+
+    /* ===== Features grid ===== */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+    }
+    .card h3 { margin: 0 0 .5rem 0; }
+    .hero-image {
+      width:100%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(15,23,42,0.06);
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      margin-top: 2.5rem;
+      padding: 1.5rem 0;
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+
+    /* ===== Media queries: mobile-first adjustments ===== */
+    /* Target small screens: typical phone breakpoint */
+    @media (max-width: 768px) {
+      /* Make nav into a stacked menu using <details> */
+      nav ul { display: none; } /* hide desktop links */
+
+      details.nav-toggle { display: block; } /* show toggle button */
+      details[open] nav.mobile { display:block; margin-top:0.6rem; }
+      nav.mobile ul { display: flex; flex-direction: column; gap: 0.2rem; }
+      nav.mobile a { padding: 0.7rem 0.8rem; display:block; }
+
+      .topbar { padding: 0.6rem 0; }
+
+      /* Hero: single column and tighter spacing */
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 2rem 0;
+      }
+
+      .hero-image { order: -1; } /* show image above text on phones (optional) */
+
+      /* Features: single column stack */
+      .features {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+      }
+
+      /* Buttons full-width on small screens */
+      .cta-row { flex-direction: column; align-items: stretch; }
+      .btn { width: 100%; text-align: center; }
+
+      /* Slightly bigger tappable areas */
+      header, .card { padding-left: 0.9rem; padding-right: 0.9rem; }
+    }
+
+    /* Medium screens: tablets — increase readability */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr 360px; padding: 2rem 0; }
+      .features { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="logo">JD</div>
+        <div>
+          <div style="font-weight:700">DemoSite</div>
+          <div style="font-size:0.85rem;color:#6b7280">Simple responsive example</div>
+        </div>
+      </div>
+
+      <!-- Desktop nav -->
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile nav toggle using details/summary -->
+      <details class="nav-toggle" aria-hidden="false">
+        <summary aria-expanded="false">Menu ▾</summary>
+        <nav class="mobile" aria-label="Mobile navigation">
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </details>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <h1 id="hero-title">Make your website look great on phones & tablets</h1>
+        <p>Simple CSS techniques and media queries let your layout adapt smoothly across screen sizes — no heavy frameworks required.</p>
+        <div class="cta-row">
+          <button class="btn">Get started</button>
+          <button class="btn secondary">Learn more</button>
+        </div>
+
+        <div style="margin-top:1.25rem; color:#6b7280; font-size:0.95rem;">
+          Tip: Resize the browser or open DevTools → toggle device toolbar to test.
+        </div>
+      </div>
+
+      <div class="hero-image" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=0" alt="Illustration of devices">
+      </div>
+    </section>
+
+    <section class="features" aria-label="Features">
+      <article class="card">
+        <h3>Responsive grid</h3>
+        <p>Use CSS Grid to create layouts that reflow automatically. Change column count in media queries.</p>
+      </article>
+
+      <article class="card">
+        <h3>Fluid images</h3>
+        <p>Images use <code>max-width:100%</code> so they scale inside their containers without overflow.</p>
+      </article>
+
+      <article class="card">
+        <h3>Readable type</h3>
+        <p>Use relative sizing (clamp, rem, vw) so text scales appropriately on different devices.</p>
+      </article>
+    </section>
+
+    <footer>
+      <div style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+        <div>© DemoSite 2025</div>
+        <div>Built with HTML & CSS — Mobile-first media queries</div>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
